@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+.vercel/
+.supabase/
+supabase/.temp/
+apps/desktop/src-tauri/target/
+apps/desktop/src-tauri/gen/
+apps/desktop/src-tauri/icons/
+*.dmg
+*.msi
+*.exe
+.DS_Store

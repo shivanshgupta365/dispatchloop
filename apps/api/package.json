@@ -1,0 +1,25 @@
+{
+  "name": "@dispatchloop/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": { "types": "./dist/server.d.ts", "default": "./dist/server.js" } },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/dev.ts",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run src"
+  },
+  "dependencies": {
+    "@dispatchloop/contracts": "workspace:*",
+    "@dispatchloop/policy": "workspace:*",
+    "@hono/node-server": "2.1.1",
+    "hono": "4.7.7",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "tsx": "4.20.3",
+    "vitest": "4.1.11"
+  }
+}

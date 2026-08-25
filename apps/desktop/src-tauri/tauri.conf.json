@@ -1,0 +1,9 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "DispatchLoop",
+  "version": "0.1.0",
+  "identifier": "com.dispatchloop.operator",
+  "build": { "beforeDevCommand": "pnpm dev", "devUrl": "http://127.0.0.1:1420", "beforeBuildCommand": "pnpm build", "frontendDist": "../dist" },
+  "app": { "windows": [{ "title": "DispatchLoop", "width": 1366, "height": 820, "minWidth": 960, "minHeight": 650, "resizable": true }], "security": { "csp": "default-src 'self'; connect-src 'self' http://localhost:8787 http://127.0.0.1:8787 https:; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;" } },
+  "bundle": { "active": true, "targets": "all", "icon": [], "category": "Business", "shortDescription": "Safe field-service operations console", "macOS": { "minimumSystemVersion": "11.0" } }
+}

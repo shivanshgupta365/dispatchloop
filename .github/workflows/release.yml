@@ -1,0 +1,51 @@
+name: Release desktop artifacts
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            args: --target aarch64-apple-darwin
+          - os: windows-latest
+            args: ""
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build and publish desktop artifacts
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: apps/desktop
+          tagName: ${{ github.ref_name }}
+          releaseName: DispatchLoop ${{ github.ref_name }}
+          releaseBody: |
+            Synthetic DispatchLoop assessment build.
+            macOS artifacts are not notarized and Windows artifacts are not code-signed unless release credentials are configured.
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}

@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "authentication": {
+    "type": "bearer",
+    "header": "Authorization",
+    "environmentVariable": "BOLNA_TOOL_TOKEN"
+  },
+  "tools": [
+    { "name": "get-booking-context", "method": "POST", "path": "/v1/tools/get-booking-context", "description": "Read the authoritative booking context and current version before a mutation.", "parameters": ["dispatchCallId", "callSid", "bookingId"] },
+    { "name": "update-eta", "method": "POST", "path": "/v1/tools/update-eta", "description": "Record a confirmed ETA of 1 to 180 whole minutes.", "parameters": ["dispatchCallId", "callSid", "bookingId", "expectedVersion", "etaMinutes"] },
+    { "name": "mark-unavailable", "method": "POST", "path": "/v1/tools/mark-unavailable", "description": "Mark inability to attend using one approved reason.", "parameters": ["dispatchCallId", "callSid", "bookingId", "expectedVersion", "reason"] },
+    { "name": "mark-arrived", "method": "POST", "path": "/v1/tools/mark-arrived", "description": "Record confirmed arrival at the location.", "parameters": ["dispatchCallId", "callSid", "bookingId", "expectedVersion"] },
+    { "name": "request-replacement", "method": "POST", "path": "/v1/tools/request-replacement", "description": "Request a replacement only after policy allows it.", "parameters": ["dispatchCallId", "callSid", "bookingId", "expectedVersion"] },
+    { "name": "send-customer-event", "method": "POST", "path": "/v1/tools/send-customer-event", "description": "Send one approved customer-event template; never pass free-form text.", "parameters": ["dispatchCallId", "callSid", "bookingId", "expectedVersion", "event"] },
+    { "name": "escalate", "method": "POST", "path": "/v1/tools/escalate", "description": "Create an operational escalation for safety, location, policy, recipient, or tool failure.", "parameters": ["dispatchCallId", "callSid", "bookingId", "reason", "notes"] }
+  ]
+}

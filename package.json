@@ -1,0 +1,25 @@
+{
+  "name": "dispatchloop",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @dispatchloop/contracts build && pnpm --filter @dispatchloop/policy build && pnpm --filter @dispatchloop/evals build && pnpm --filter @dispatchloop/api build && pnpm --filter @dispatchloop/desktop build",
+    "dev:api": "pnpm --filter @dispatchloop/api dev",
+    "dev:desktop": "pnpm --filter @dispatchloop/desktop tauri dev",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "scan:secrets": "node scripts/secret-scan.mjs",
+    "requirements": "node scripts/requirements-status.mjs",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm scan:secrets"
+  },
+  "devDependencies": {
+    "@types/node": "24.7.2",
+    "typescript": "5.9.3"
+  }
+}
