@@ -47,6 +47,7 @@ The Vercel deployment is fixture-mode and protected by the owning Vercel team’
 
 - [Architecture](docs/architecture.md)
 - [Security model](docs/security.md)
+- [Provider credentials](docs/provider-credentials.md)
 - [Five-minute demo](docs/five-minute-demo.md)
 - [Failure-analysis template](docs/failure-analysis.md)
 - [Screenshot convention](docs/screenshots/README.md)
