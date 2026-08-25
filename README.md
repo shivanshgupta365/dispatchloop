@@ -36,6 +36,13 @@ Every evaluation and trace uses one of `live_call`, `bolna_fixture`, or `determi
 
 CI builds a macOS ARM64 and Windows x64 artifact. Neither is signed or notarized unless credentials are supplied. See [known limitations](docs/known-limitations.md) before a public demo.
 
+## Submission links
+
+- Source: [github.com/shivanshgupta365/dispatchloop](https://github.com/shivanshgupta365/dispatchloop)
+- API deployment: `https://dispatchloop-h73aax7zh-shiz7s-projects.vercel.app`
+
+The Vercel deployment is fixture-mode and protected by the owning Vercel team’s access policy. Run the desktop app locally for the complete mock walkthrough; add the server-only variables in `.env.example` before enabling live Bolna or Supabase.
+
 ## Documentation
 
 - [Architecture](docs/architecture.md)
