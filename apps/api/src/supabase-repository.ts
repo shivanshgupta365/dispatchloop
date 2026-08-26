@@ -63,7 +63,7 @@ export class SupabaseDispatchRepository implements DispatchRepository {
     const rows = await this.rest<Row[]>(`calls?id=eq.${encodeURIComponent(callId)}`, { method: "PATCH", headers: { Prefer: "return=representation" }, body: JSON.stringify(patch) }); return rows[0] ? call(rows[0]) : null;
   }
   async recordWebhook(input: { executionId: string; status: Call["status"]; payloadHash: string }) { await this.rest<Row[]>("webhook_events?on_conflict=execution_id,payload_hash", { method: "POST", headers: { Prefer: "resolution=ignore-duplicates,return=minimal" }, body: JSON.stringify({ execution_id: input.executionId, status: input.status, payload_hash: input.payloadHash }) }); }
-  async reset() { throw new Error("Demo reset is disabled for the persistent Supabase repository."); }
+  async reset() { await this.rest<{ ok: boolean }>("rpc/dispatch_reset_demo", { method: "POST", body: "{}" }); }
 }
 
 export const supabaseRepositoryFromEnv = (env: AppEnv): DispatchRepository | null => env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY ? new SupabaseDispatchRepository(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY) : null;
