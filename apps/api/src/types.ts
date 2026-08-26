@@ -49,6 +49,8 @@ export type AppEnv = {
   BOLNA_AGENT_ID?: string;
   BOLNA_FROM_PHONE_NUMBER?: string;
   DEMO_RECIPIENT_PHONE?: string;
+  SUPABASE_URL?: string;
+  SUPABASE_SERVICE_ROLE_KEY?: string;
   INTEGRATION_MODE?: "live" | "fixture" | "mock";
   /** @deprecated Use INTEGRATION_MODE. */
   DISPATCHLOOP_MODE?: "live" | "fixture" | "mock";

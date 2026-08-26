@@ -5,6 +5,7 @@ import { z } from "zod";
 import { callStatusSchema, createCallRequestSchema, escalateRequestSchema, getBookingContextRequestSchema, markArrivedRequestSchema, markUnavailableRequestSchema, requestReplacementRequestSchema, sendCustomerEventRequestSchema, updateEtaRequestSchema } from "@dispatchloop/contracts";
 import type { ApiFailure, ApiResponse } from "@dispatchloop/contracts";
 import { InMemoryDispatchRepository } from "./repository.js";
+import { supabaseRepositoryFromEnv } from "./supabase-repository.js";
 import type { AppEnv, DispatchRepository, Mutation } from "./types.js";
 
 type HonoEnv = { Bindings: AppEnv; Variables: { repo: DispatchRepository } };
@@ -35,11 +36,12 @@ async function canonicalExecutionStatus(env: AppEnv, executionId: string) {
 
 export function createApp(options: { repo?: DispatchRepository; env?: AppEnv } = {}) {
   const app = new Hono<HonoEnv>();
-  const repo = options.repo ?? new InMemoryDispatchRepository(); const env = options.env ?? process.env as AppEnv;
+  const env = options.env ?? process.env as AppEnv;
+  const repo = options.repo ?? supabaseRepositoryFromEnv(env) ?? new InMemoryDispatchRepository();
   app.use("*", async (c, next) => { c.set("repo", repo); await next(); });
   app.onError((error, c) => c.json(failure(requestId(), "INTERNAL_ERROR", error instanceof Error ? error.message : "Unexpected error."), 500));
   const integrationMode = () => env.INTEGRATION_MODE ?? env.DISPATCHLOOP_MODE ?? "mock";
-  app.get("/health", (c) => c.json(success(requestId(), { status: "ok", mode: integrationMode(), dependencies: { database: "mock", bolna: integrationMode() === "live" ? "configured" : "disabled" } })));
+  app.get("/health", (c) => c.json(success(requestId(), { status: "ok", mode: integrationMode(), dependencies: { database: env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY ? "supabase" : "mock", bolna: integrationMode() === "live" ? "configured" : "disabled" } })));
   const operator: MiddlewareHandler<HonoEnv> = async (c, next) => { if (!bearer(c.req.header("Authorization"), env.DISPATCHLOOP_OPERATOR_TOKEN ?? env.OPERATOR_TOKEN ?? "dev-operator-token")) return c.json(failure(requestId(), "UNAUTHORIZED", "Operator authentication is required."), 401); await next(); };
   app.use("/v1/bookings", operator);
   app.use("/v1/bookings/*", operator);
