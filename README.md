@@ -2,8 +2,6 @@
 
 DispatchLoop is a synthetic field-service operations console for calling a professional, collecting a status update in English/Hindi/Hinglish, and applying only deterministic, auditable booking actions. It is an assessment prototype: it has no relationship with Urban Company or any real service marketplace.
 
-![Dispatch surface convention](docs/screenshots/dispatch-placeholder.svg)
-
 ## What is included
 
 - Tauri desktop operator console with Dispatch, Booking, Call Trace, and Evals surfaces.
